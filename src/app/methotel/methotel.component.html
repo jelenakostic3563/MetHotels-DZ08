@@ -1,0 +1,78 @@
+
+
+  
+        <form>
+            <div class="form-group">
+              <label for="imeSobe">Ime sobe</label>
+              <input type="text" class="form-control" [(ngModel)]="ime" ngModel name="imeSobe" #imeSobe="ngModel" required>
+                <div 
+                class="alert alert-danger" 
+                *ngIf="imeSobe.touched && !imeSobe.valid ">
+                    <div *ngIf="imeSobe.errors.required">
+                        Unesite ime sobe
+                    </div>  
+                    <div *ngIf="imeSobe.errors.minlength">
+                        Ime sobe mora biti duza od 6 karaktera.
+                    </div>        
+              </div>
+            </div>
+      
+            <div class="form-group">
+              <label for="cenaSobe">Cena sobe</label>
+              <input type="text" class="form-control" [(ngModel)]="cena" ngModel name="cenaSobe" #cenaSobe="ngModel" id="cenaSobe" required>
+              <div 
+              class="alert alert-danger" 
+              *ngIf="cenaSobe.touched && !cenaSobe.valid">
+                  <div *ngIf="cenaSobe.errors.required">
+                      Unesite ime sobe
+                  </div>
+              </div>
+            </div>
+      
+            <button type="submit" class="btn btn-success" (click)="add(imeSobe.value,cenaSobe.value)">Dodaj</button>
+      
+          </form>
+  
+         <p>Lista soba : </p>
+          <ul class="list-group">
+              <li *ngFor="let soba of sobe" class="list-group-item">
+                  {{ soba.ime | filter }} ------- Cena:{{ soba.cena | filter }} 
+                  <button type="button" class="btn btn-danger" (click)="delete(soba.ime)">Izbrisi</button>
+                  <button type="button" class="btn btn-primary" 
+                  (click)="edit(soba.ime)"
+                  
+                   >Izmeni</button>
+              </li>
+          </ul>
+  
+          <button type="button" class="btn btn-warning" (click)="randomize()">Sortiraj Nasumicno</button>
+    
+          <div style="margin-bottom: 50px;"></div>
+
+          <h3>Izracunaj cenu sobe po broju noći:</h3>
+
+          <form [formGroup]="cenaPoNoci" (ngSubmit)="dobijCenuPoNoci()">
+
+                <div class="form-group">
+                    <label for="imeSobe">Ime Sobe</label>
+                    <input 
+                        formControlName="imeSobe"
+                        id="imeSobe" 
+                        type="text" 
+                        class="form-control">
+                 
+                    </div>
+
+                <div class="form-group">
+                    <label for="brojNoci">Broj Noci</label>
+                    <input 
+                        id="brojNoci" 
+                        formControlName="brojNoci"
+                        type="text" 
+                        class="form-control">
+                </div>
+                
+                <h3> {{ prikazCene }}</h3>
+            <button class="btn btn-primary" type="submit">Izracunaj</button>
+          
+        </form>
